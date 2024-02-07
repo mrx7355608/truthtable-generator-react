@@ -1,13 +1,12 @@
 import { useState } from "react";
 import "./index.css";
-import Table from "./Table";
+import Table from "./Table/Table";
 import Note from "./Note";
+import useTruthTable from "./hooks/useTruthTable";
 
 function App() {
-    const [loading, setLoading] = useState(false);
     const [expression, setExpression] = useState("");
-    const [resp, setResp] = useState(null);
-    const [error, setError] = useState(null);
+    const { loading, error, resp, getTruthTable } = useTruthTable();
 
     const onChangeHandler = (e) => {
         setExpression(e.target.value);
@@ -15,26 +14,7 @@ function App() {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        if (!expression) {
-            return setError("Please enter an expression");
-        }
-
-        setLoading(true);
-        const res = await fetch(
-            "http://localhost:3000/api/v1/solve-expression",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ expression }),
-            },
-        );
-        setLoading(false);
-        setExpression("");
-        setError(null);
-        const results = await res.json();
-        setResp(results);
+        getTruthTable(expression);
     };
 
     return (
@@ -70,7 +50,7 @@ function App() {
                     )}
                 </button>
             </form>
-            <p className="text-red-600 mt-5">{error}</p>
+            <p className="text-red-600 mt-5 text-center">{error}</p>
             {resp && <Table table={resp} />}
         </div>
     );
