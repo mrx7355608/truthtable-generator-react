@@ -18,7 +18,7 @@ function App() {
     };
 
     return (
-        <div className="w-1/2 mx-auto font-sans h-screen">
+        <div className="lg:w-1/2 lg:mx-auto lg:font-sans lg:h-screen w-full p-4">
             <h1 className="text-center text-4xl font-black text-indigo-500 pt-12">
                 Truth Table Generator
             </h1>
